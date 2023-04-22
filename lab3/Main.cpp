@@ -7,7 +7,7 @@ namespace fs = std::filesystem;
 
 int main()
 {
-	//dla stowrzonego wczsniej pliku test.txt w katalogu test_folder
+	//dla utowrzonego wczsniej pliku test.txt w katalogu test_folder
 	FileManager file("test_folder/test.txt");
 	file.copy("test_folder/copies");
 	file.move("test_folder/moved");
