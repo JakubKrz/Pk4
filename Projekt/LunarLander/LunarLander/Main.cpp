@@ -15,7 +15,12 @@ int main()
                 window.close();
         }
 
+        //update
+
+        //render           
         window.clear();
+
+        //draw
         window.draw(shape);
         window.display();
     }
