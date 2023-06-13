@@ -14,7 +14,7 @@ private:
 	void initVariables();
 	void initShape();
 public:
-	Lander(float x = 0.f, float y = 0.f);
+	Lander(float x = 100.f, float y = 100.f);
 	~Lander();
 
 	void update(sf::RenderTarget* target);

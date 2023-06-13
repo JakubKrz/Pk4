@@ -33,8 +33,10 @@ const bool Game::windowIsOpen() const
 
 void Game::render()
 {
-    this->window->clear();
-    
+    this->window->clear();   
+
+    //this->window->draw(groundShape);
+    this->terrain.render(this->window);
     this->lander.render(this->window);//przesylanie window zeby sprawdzic czy nie wyszedl za okno
 
     this->window->display();
