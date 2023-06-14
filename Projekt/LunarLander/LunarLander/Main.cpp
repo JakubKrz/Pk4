@@ -10,7 +10,7 @@ int main()
         game.update();
         //render           
         game.render();
-        
+
     }
 
     return 0;

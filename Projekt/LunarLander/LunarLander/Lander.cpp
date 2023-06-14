@@ -1,26 +1,24 @@
 #include "Lander.h"
 
 void Lander::initVariables()//poczatkowe ilosci predkosci,obrotu,paliwa
-{	
+{
 	this->speed_x = 0.2f;
 	this->speed_y = 0.f;
 	this->rotationAngle = 0.0f;
 	this->fuel = 1000.f;
 }
 
-void Lander::initShape()
-{
-	//wczytywanie wygladu
-	this->shape.setFillColor(sf::Color(255, 125, 100, 255));
-	//ustawianie rozmiaru
-	this->shape.setSize(sf::Vector2f(25.f, 50.f));
-	this->shape.setOrigin(12.5f, 25.f);//ustawienie srodka osi obrotu
+void Lander::initSprite()
+{	
+	this->texture.loadFromFile("C:/Users/krzyw/Source/Repos/PK4/Projekt/LunarLander/Textures/test.png");
+	
+	this->sprite.setTexture(this->texture);
 }
 
 Lander::Lander(float x, float y)
 {
-	this->shape.setPosition(x, y);
-	this->initShape();
+	this->sprite.setPosition(x, y);
+	this->initSprite();
 	this->initVariables();
 }
 
@@ -33,7 +31,7 @@ void Lander::update(sf::RenderTarget* target)
 {
 	this->updateInput();
 	this->speed_y += 0.01f;//dodanie grawitacji, dodac zmienna globalna lub w klasie
-	this->shape.move(this->speed_x, this->speed_y);
+	this->sprite.move(this->speed_x, this->speed_y);
 	//oblicznie predkosci(dodanie grawitacj) i zmiana polozenia(this->shape.move)
 }
 
@@ -42,12 +40,12 @@ void Lander::updateInput()
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		this->rotationAngle += -3;//zmienna o ile mozna sie obracaac jednorazowao zamiast 1
-		this->shape.setRotation(this->rotationAngle);
+		this->sprite.setRotation(this->rotationAngle);
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		this->rotationAngle += 3;//zmienna o ile mozna sie obracaac jednorazowao zamiast 1
-		this->shape.setRotation(this->rotationAngle);
+		this->sprite.setRotation(this->rotationAngle);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
@@ -64,5 +62,5 @@ void Lander::updateInput()
 
 void Lander::render(sf::RenderTarget* target)
 {
-	target->draw(this->shape);
+	target->draw(this->sprite);
 }

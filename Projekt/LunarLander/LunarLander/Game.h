@@ -1,18 +1,18 @@
 #pragma once
 #include <iostream>
 #include "Lander.h"
-#include "Terrain.h"
+//#include "Terrain.h"
 
 class Game
 {
 private:
-	
+
 	sf::RenderWindow* window;
 	sf::VideoMode video;
 	sf::Event event;
 
 	Lander lander;
-	Terrain terrain;
+	//Terrain terrain;
 
 	void initVariables();
 	void initWindow();
@@ -29,4 +29,3 @@ public:
 	void updateEvents();
 };
 
-	
