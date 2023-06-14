@@ -10,9 +10,10 @@ void Lander::initVariables()//poczatkowe ilosci predkosci,obrotu,paliwa
 
 void Lander::initSprite()
 {	
-	this->texture.loadFromFile("C:/Users/krzyw/Source/Repos/PK4/Projekt/LunarLander/Textures/test.png");
+	this->texture.loadFromFile("C:/Users/krzyw/Source/Repos/PK4/Projekt/LunarLander/Textures/test.png");//tutaj uzyc filesystem
 	
 	this->sprite.setTexture(this->texture);
+	this->sprite.setOrigin(this->sprite.getLocalBounds().width/2, this->sprite.getLocalBounds().height / 2);
 }
 
 Lander::Lander(float x, float y)
