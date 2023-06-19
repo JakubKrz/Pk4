@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include "Lander.h"
-//#include "Terrain.h"
+#include "Terrain.h"
 
 class Game
 {
@@ -12,7 +12,7 @@ private:
 	sf::Event event;
 
 	Lander lander;
-	//Terrain terrain;
+	Terrain terrain;
 
 	void initVariables();
 	void initWindow();

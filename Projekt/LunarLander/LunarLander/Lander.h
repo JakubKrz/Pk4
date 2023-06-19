@@ -1,12 +1,13 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include "Terrain.h"
 
 class Lander
 {
 private:
 	sf::Sprite sprite;
-	sf::Texture texture;
+	sf::Texture LanderTexture;
 
 	float speed_x, speed_y;
 	float rotationAngle;
@@ -21,5 +22,7 @@ public:
 	void update(sf::RenderTarget* target);
 	void updateInput();
 	void render(sf::RenderTarget* target);
+	float getX();
+	float getLowestPoint();
 };
 

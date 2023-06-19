@@ -35,7 +35,7 @@ void Game::render()
 {
     this->window->clear();
 
-    //this->terrain.render(this->window);
+    this->terrain.render(this->window);
     this->lander.render(this->window);//przesylanie window zeby sprawdzic czy nie wyszedl za okno
 
     this->window->display();
@@ -46,6 +46,8 @@ void Game::update()
     this->updateEvents();
 
     this->lander.update(this->window);
+    
+    std::cout << terrain.getHeight(lander.getX(),lander.getLowestPoint()) <<"\n";
 }
 
 void Game::updateEvents()
