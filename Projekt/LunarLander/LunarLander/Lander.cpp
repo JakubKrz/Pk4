@@ -92,21 +92,42 @@ float Lander::getLowestPoint()
 	return maxY;
 }
 
-	bool Lander::checkCollision(const std::vector<sf::Vector2f>& groundPoints)
+bool Lander::checkCollision(std::vector<sf::Vector2f> groundPoints)
+{
+	sf::FloatRect spriteBounds = this->sprite.getGlobalBounds();
+	sf::Vector2f spriteCenter(spriteBounds.left + spriteBounds.width / 2.0f, spriteBounds.top + spriteBounds.height / 2.0f);
+
+	for (size_t i = 0; i < groundPoints.size() - 1; ++i)
 	{
-		// Get the sprite's bounding box
-		sf::FloatRect spriteBounds = this->sprite.getGlobalBounds();
-		float spriteX = this->getX();
+		sf::Vector2f point1 = groundPoints[i];
+		sf::Vector2f point2 = groundPoints[i + 1];
 
-		// Iterate over the ground points
-		for (size_t i = 0; i < groundPoints.size() - 1; ++i) {
-			sf::Vector2f point1 = groundPoints[i];
-			sf::Vector2f point2 = groundPoints[i + 1];
+		sf::Vector2f lineDirection = point2 - point1;
+		sf::Vector2f spriteToLine = spriteCenter - point1;
 
-			if (spriteX >= std::min(point1.x, point2.x) && spriteX <= std::max(point1.x, point2.x))
-			{
+		float dotProduct = lineDirection.x * spriteToLine.x + lineDirection.y * spriteToLine.y;
+		float lineLengthSquared = lineDirection.x * lineDirection.x + lineDirection.y * lineDirection.y;
+		float t = dotProduct / lineLengthSquared;
+		t = std::max(0.0f, std::min(1.0f, t));
 
+		sf::Vector2f closestPoint = point1 + t * lineDirection;
+		sf::Vector2f diff = spriteCenter - closestPoint;
+		sf::Vector2f absDiff(std::abs(diff.x), std::abs(diff.y));
+
+		float xOverlap = spriteBounds.width / 2.0f - absDiff.x;
+		if (xOverlap <= 0.0f)
+		{
+			continue;
 		}
-		// No collision detected
-		return false;
+
+		float yOverlap = spriteBounds.height / 2.0f - absDiff.y;
+		if (yOverlap <= 0.0f)
+		{
+			continue;
+		}
+
+		return true;
 	}
+
+	return false;
+}
