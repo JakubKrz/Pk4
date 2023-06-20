@@ -24,5 +24,6 @@ public:
 	void render(sf::RenderTarget* target);
 	float getX();
 	float getLowestPoint();
+	bool checkCollision(const std::vector<sf::Vector2f>& groundPoints);
 };
 

@@ -92,4 +92,21 @@ float Lander::getLowestPoint()
 	return maxY;
 }
 
+	bool Lander::checkCollision(const std::vector<sf::Vector2f>& groundPoints)
+	{
+		// Get the sprite's bounding box
+		sf::FloatRect spriteBounds = this->sprite.getGlobalBounds();
+		float spriteX = this->getX();
 
+		// Iterate over the ground points
+		for (size_t i = 0; i < groundPoints.size() - 1; ++i) {
+			sf::Vector2f point1 = groundPoints[i];
+			sf::Vector2f point2 = groundPoints[i + 1];
+
+			if (spriteX >= std::min(point1.x, point2.x) && spriteX <= std::max(point1.x, point2.x))
+			{
+
+		}
+		// No collision detected
+		return false;
+	}

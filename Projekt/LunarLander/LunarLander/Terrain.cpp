@@ -59,3 +59,8 @@ float Terrain::getHeight(float x,float y) const
     }
     return 0.0f;
 }
+
+const std::vector<sf::Vector2f>& Terrain::GetGroundPoints() const
+{
+    return this->groundPoints;
+}

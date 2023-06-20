@@ -47,7 +47,7 @@ void Game::update()
 
     this->lander.update(this->window);
     
-    std::cout << terrain.getHeight(lander.getX(),lander.getLowestPoint()) <<"\n";
+    std::cout << lander.checkCollision(terrain.GetGroundPoints()) << "\n";
 }
 
 void Game::updateEvents()
