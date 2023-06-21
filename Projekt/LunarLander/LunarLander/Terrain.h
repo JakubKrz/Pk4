@@ -15,7 +15,6 @@ public:
 	~Terrain();
 
 	void render(sf::RenderTarget* target);
-	float getHeight(float x,float y) const;
 	const std::vector<sf::Vector2f>& GetGroundPoints() const;
 	const sf::VertexArray& GetGroundShape() const;
 };

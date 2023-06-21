@@ -137,11 +137,13 @@
     <ClCompile Include="Lander.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
     <ClInclude Include="Lander.h" />
     <ClInclude Include="Terrain.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

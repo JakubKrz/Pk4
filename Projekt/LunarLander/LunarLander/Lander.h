@@ -22,8 +22,9 @@ public:
 	void update(sf::RenderTarget* target);
 	void updateInput();
 	void render(sf::RenderTarget* target);
-	float getX();
-	float getLowestPoint();
+	float getX() const;
+	float getLowestPoint() const;
 	bool checkCollision(std::vector<sf::Vector2f> vertices);
+	float getHeight(std::vector<sf::Vector2f> groundPoints) const;//groundpoints prze referencje i const
 };
 

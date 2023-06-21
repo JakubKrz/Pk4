@@ -37,7 +37,7 @@ void Game::render()
 
     this->terrain.render(this->window);
     this->lander.render(this->window);//przesylanie window zeby sprawdzic czy nie wyszedl za okno
-
+    this->text.render(this->window);
     this->window->display();
 }
 
@@ -46,8 +46,8 @@ void Game::update()
     this->updateEvents();
 
     this->lander.update(this->window);
-    
-    std::cout << lander.checkCollision(terrain.GetGroundPoints()) << "\n";
+
+    this->text.update(this->window,lander.getHeight(terrain.GetGroundPoints()));
 }
 
 void Game::updateEvents()

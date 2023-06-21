@@ -68,13 +68,13 @@ void Lander::render(sf::RenderTarget* target)
 	target->draw(this->sprite);
 }
 
-float Lander::getX()
+float Lander::getX() const
 {
 	return this->sprite.getPosition().x;
 }
 
 //return bottom of sprite
-float Lander::getLowestPoint()
+float Lander::getLowestPoint() const
 {
 	sf::FloatRect bounds = this->sprite.getLocalBounds();
 	sf::Vector2f corners[4] = {
@@ -130,4 +130,32 @@ bool Lander::checkCollision(std::vector<sf::Vector2f> groundPoints)
 	}
 
 	return false;
+}
+
+float Lander::getHeight(std::vector<sf::Vector2f> groundPoints) const
+{
+	float x = this->getX();
+	float y = this->getLowestPoint();
+	for (size_t i = 0; i < groundPoints.size() - 1; ++i)
+	{
+		float x1 = groundPoints[i].x;
+		float x2 = groundPoints[i + 1].x;
+
+		if (x >= x1 && x <= x2)
+		{
+			float y1 = groundPoints[i].y;
+			float y2 = groundPoints[i + 1].y;
+
+			if (x == x1)
+				return y1 - y;
+			else if (x == x2)
+				return y2 - y;
+			else
+			{
+				float t = (x - x1) / (x2 - x1);
+				return y1 + t * (y2 - y1) - y;
+			}
+		}
+	}
+	return 0.0f;
 }

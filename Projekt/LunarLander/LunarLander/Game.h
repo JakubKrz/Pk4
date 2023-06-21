@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Lander.h"
 #include "Terrain.h"
+#include "UI.h"
 
 class Game
 {
@@ -13,6 +14,7 @@ private:
 
 	Lander lander;
 	Terrain terrain;
+	UI text;
 
 	void initVariables();
 	void initWindow();
