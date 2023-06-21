@@ -9,6 +9,7 @@ void Lander::initVariables()//poczatkowe ilosci predkosci,obrotu,paliwa
 	this->gravity = 0.008f;
 	this->acceleration = 0.02f;
 	this->fuelConsuption = 0.5f;
+	this->points = 0;
 }
 
 void Lander::resetPosition(float x, float y)
@@ -20,9 +21,17 @@ void Lander::resetPosition(float x, float y)
 	this->sprite.setRotation(this->rotationAngle);
 }
 
+void Lander::landingUpdate()//TO DO:sprawdzic czy teren jest plaski (moze dodajac landing spot do terrain)
+{
+	if (this->speed_x < 10 && this->speed_y < 10 && std::abs(this->rotationAngle) < 20)
+	{
+		this->points += 100;
+	}
+}
+
 void Lander::initSprite()
 {	
-	this->LanderTexture.loadFromFile("C:/Users/krzyw/Source/Repos/PK4/Projekt/LunarLander/Textures/test1.png");//tutaj uzyc filesystem
+	this->LanderTexture.loadFromFile("C:/Users/krzyw/Source/Repos/PK4/Projekt/LunarLander/Textures/test1.png");//TO DO:tutaj uzyc filesystem
 	
 	this->sprite.setTexture(this->LanderTexture);
 	this->sprite.setOrigin(this->sprite.getLocalBounds().width/2, this->sprite.getLocalBounds().height / 2);
@@ -67,7 +76,7 @@ void Lander::updateInput()
 		if (fuel > 0)
 		{
 			this->fuel -= fuelConsuption;
-			this->speed_x += this->acceleration * std::cosf(rotationAngle * (3.141 / 180) - 3.141 / 2);//przeniesc na zmienne pi i predkosc
+			this->speed_x += this->acceleration * std::cosf(rotationAngle * (3.141 / 180) - 3.141 / 2);//przeniesc na zmienne pi i predkoscTO DO:
 			this->speed_y += this->acceleration * std::sinf(rotationAngle * (3.141 / 180) - 3.141 / 2);//dodac zmienna globalna pi i przyspoeszenie 0.2f
 			//odejecie pi/2 zeby "dol byl na dole"
 		}
@@ -197,4 +206,9 @@ int Lander::getRotationAngle() const
 float Lander::getMaxFuel() const
 {
 	return this->maxFuel;
+}
+
+int Lander::getPoints() const
+{
+	return this->points;
 }

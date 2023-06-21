@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 class Terrain
-{
+{//TO DO : landing pads
 private:
 	std::vector<sf::Vector2f> groundPoints;
 	sf::VertexArray groundShape;

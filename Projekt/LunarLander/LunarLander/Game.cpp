@@ -55,12 +55,15 @@ void Game::update()
     {
         if (lander.getFuel() > 0)
         {
-            //TO DO : game.landedSafe(); && game.addPoints();
+            //TO DO : czy teren jest plaski?
+            lander.landingUpdate();
             lander.resetPosition();
         }
         else
         {
             //TO DO : Game over
+            //zapisac punkty a nastepnie ustawic na 0
+            this->gameOver();
         }
     }
 
@@ -81,4 +84,9 @@ void Game::updateEvents()
             break;
         }
     }
+}
+
+void Game::gameOver()//TO DO: dopisac reszte zpisywanie do pliku , filesystem, przejscei do menu
+{
+    this->window->close();
 }

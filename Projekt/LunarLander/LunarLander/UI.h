@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Lander.h"
-
+//TO DO :przeniesc wartosci w odpowiednie miejsce
 class UI
 {
 private:

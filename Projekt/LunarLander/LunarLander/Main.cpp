@@ -3,7 +3,8 @@
 int main()
 {
     Game game;
-
+    //TO DO : Menu (przeniesc tutaj tworzenie okna, i stan gry po przegranej
+    
     while (game.windowIsOpen())
     {
         //update

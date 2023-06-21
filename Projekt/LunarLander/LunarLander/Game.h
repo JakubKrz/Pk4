@@ -29,5 +29,6 @@ public:
 	void render();
 	void update();
 	void updateEvents();
+	void gameOver();
 };
 

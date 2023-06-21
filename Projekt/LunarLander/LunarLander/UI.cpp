@@ -45,7 +45,7 @@ void UI::update(sf::RenderTarget* target, const Lander& lander,const std::vector
 	texts[1].setString("Speedx:" + std::to_string(static_cast<int>(lander.getSpeedX()*14)));
 	texts[2].setString("Speedy:" + std::to_string(static_cast<int>(lander.getSpeedY()*14)));
 	texts[3].setString("Fuel:" + std::to_string(static_cast<int>(lander.getFuel())));
-	texts[4].setString("Kolizja:"+std::to_string(lander.checkCollision(groundPoints)));
+	texts[4].setString("Points:"+std::to_string(lander.getPoints()));
 	texts[5].setString("RotationAngle:"+ std::to_string(lander.getRotationAngle()));
 	
 	this->LanderFuelBar.setSize(sf::Vector2f(this->LanderFuelBarBack.getSize().x * (lander.getFuel() / lander.getMaxFuel()), this->LanderFuelBarBack.getSize().y));// bar length * % of fuel

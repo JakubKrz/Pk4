@@ -4,15 +4,17 @@
 #include "Terrain.h"
 
 class Lander
-{
+{//TO DO: animacje silnika
 private:
 	sf::Sprite sprite;
 	sf::Texture LanderTexture;
 
 	float speed_x, speed_y;
 	int rotationAngle;
-	float fuel;
 	float maxFuel;
+
+	float fuel;
+	int points;
 
 	float acceleration;
 	float gravity;
@@ -30,7 +32,8 @@ public:
 
 	bool checkCollision(std::vector<sf::Vector2f> vertices) const;
 	void resetPosition(float x = 10.f, float y = 50.f);
-
+	void landingUpdate();
+//	TO DO : gettery & i const
 	float getLowestPoint() const;
 	float getHeight(std::vector<sf::Vector2f> groundPoints) const;//groundpoints prze referencje i const
 	float getX() const;
@@ -39,5 +42,6 @@ public:
 	float getFuel() const;
 	int getRotationAngle() const;
 	float getMaxFuel() const;
+	int getPoints() const;
 };
 
