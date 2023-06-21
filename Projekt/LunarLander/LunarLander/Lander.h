@@ -24,7 +24,10 @@ public:
 	void render(sf::RenderTarget* target);
 	float getX() const;
 	float getLowestPoint() const;
-	bool checkCollision(std::vector<sf::Vector2f> vertices);
+	bool checkCollision(std::vector<sf::Vector2f> vertices) const;
 	float getHeight(std::vector<sf::Vector2f> groundPoints) const;//groundpoints prze referencje i const
+	float getSpeedX() const;
+	float getSpeedY() const;
+	float getFuel() const;
 };
 

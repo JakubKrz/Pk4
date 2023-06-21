@@ -1,17 +1,19 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include "Lander.h"
 
 class UI
 {
 private:
 	sf::Font font;
-	sf::Text text;
+	std::vector<sf::Text> texts;
+
 
 public:
 	UI();
 	~UI();
 	void render(sf::RenderTarget* target);
-	void update(sf::RenderTarget* target, float height);
+	void update(sf::RenderTarget* target, const Lander& lander,const std::vector<sf::Vector2f>& groundPoints);
 };
 

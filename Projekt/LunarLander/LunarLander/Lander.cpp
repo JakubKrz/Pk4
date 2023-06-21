@@ -92,7 +92,7 @@ float Lander::getLowestPoint() const
 	return maxY;
 }
 
-bool Lander::checkCollision(std::vector<sf::Vector2f> groundPoints)
+bool Lander::checkCollision(std::vector<sf::Vector2f> groundPoints) const
 {
 	sf::FloatRect spriteBounds = this->sprite.getGlobalBounds();
 	sf::Vector2f spriteCenter(spriteBounds.left + spriteBounds.width / 2.0f, spriteBounds.top + spriteBounds.height / 2.0f);
@@ -158,4 +158,19 @@ float Lander::getHeight(std::vector<sf::Vector2f> groundPoints) const
 		}
 	}
 	return 0.0f;
+}
+
+float Lander::getSpeedX() const
+{
+	return this->speed_x;
+}
+
+float Lander::getSpeedY() const
+{
+	return this->speed_y;
+}
+
+float Lander::getFuel() const
+{
+	return this->fuel;
 }

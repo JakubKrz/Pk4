@@ -38,6 +38,7 @@ void Game::render()
     this->terrain.render(this->window);
     this->lander.render(this->window);//przesylanie window zeby sprawdzic czy nie wyszedl za okno
     this->text.render(this->window);
+
     this->window->display();
 }
 
@@ -47,7 +48,8 @@ void Game::update()
 
     this->lander.update(this->window);
 
-    this->text.update(this->window,lander.getHeight(terrain.GetGroundPoints()));
+    this->text.update(this->window,lander, terrain.GetGroundPoints());
+
 }
 
 void Game::updateEvents()
