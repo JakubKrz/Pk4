@@ -49,6 +49,20 @@ void Game::update()
     this->lander.update(this->window);
 
     this->text.update(this->window,lander, terrain.GetGroundPoints());
+    //Reset position if crashed and fuel>0
+    //TO DO: check if landing was succesful and add points
+    if (lander.checkCollision(terrain.GetGroundPoints()))
+    {
+        if (lander.getFuel() > 0)
+        {
+            //TO DO : game.landedSafe(); && game.addPoints();
+            lander.resetPosition();
+        }
+        else
+        {
+            //TO DO : Game over
+        }
+    }
 
 }
 

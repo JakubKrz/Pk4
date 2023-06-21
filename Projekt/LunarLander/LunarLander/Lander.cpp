@@ -3,10 +3,21 @@
 
 void Lander::initVariables()//poczatkowe ilosci predkosci,obrotu,paliwa
 {
-	this->speed_x = 0.2f;
+	this->resetPosition();
+	this->maxFuel = 1000.f;
+	this->fuel = this->maxFuel;
+	this->gravity = 0.008f;
+	this->acceleration = 0.02f;
+	this->fuelConsuption = 0.5f;
+}
+
+void Lander::resetPosition(float x, float y)
+{
+	this->speed_x = 2.f;
 	this->speed_y = 0.f;
 	this->rotationAngle = 0.0f;
-	this->fuel = 1000.f;
+	this->sprite.setPosition(x, y);
+	this->sprite.setRotation(this->rotationAngle);
 }
 
 void Lander::initSprite()
@@ -18,9 +29,9 @@ void Lander::initSprite()
 	this->sprite.setScale(1.f, 1.f);
 }
 
-Lander::Lander(float x, float y)
+Lander::Lander()
 {
-	this->sprite.setPosition(x, y);
+	
 	this->initSprite();
 	this->initVariables();
 }
@@ -33,7 +44,7 @@ Lander::~Lander()
 void Lander::update(sf::RenderTarget* target)
 {
 	this->updateInput();
-	this->speed_y += 0.01f;//dodanie grawitacji
+	this->speed_y += this->gravity;
 	this->sprite.move(this->speed_x, this->speed_y);
 }
 
@@ -55,9 +66,9 @@ void Lander::updateInput()
 	{
 		if (fuel > 0)
 		{
-			this->fuel -= 1.f;//zuzycie paliwa
-			this->speed_x += 0.2f * std::cosf(rotationAngle * (3.141 / 180) - 3.141 / 2);//przeniesc na zmienne pi i predkosc
-			this->speed_y += 0.2f * std::sinf(rotationAngle * (3.141 / 180) - 3.141 / 2);//dodac zmienna globalna pi i przyspoeszenie 0.2f
+			this->fuel -= fuelConsuption;
+			this->speed_x += this->acceleration * std::cosf(rotationAngle * (3.141 / 180) - 3.141 / 2);//przeniesc na zmienne pi i predkosc
+			this->speed_y += this->acceleration * std::sinf(rotationAngle * (3.141 / 180) - 3.141 / 2);//dodac zmienna globalna pi i przyspoeszenie 0.2f
 			//odejecie pi/2 zeby "dol byl na dole"
 		}
 	}
@@ -133,6 +144,8 @@ bool Lander::checkCollision(std::vector<sf::Vector2f> groundPoints) const
 	return false;
 }
 
+
+
 float Lander::getHeight(std::vector<sf::Vector2f> groundPoints) const
 {
 	float x = this->getX();
@@ -179,4 +192,9 @@ float Lander::getFuel() const
 int Lander::getRotationAngle() const
 {
 	return this->rotationAngle;
+}
+
+float Lander::getMaxFuel() const
+{
+	return this->maxFuel;
 }

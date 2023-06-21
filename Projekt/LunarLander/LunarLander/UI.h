@@ -8,7 +8,8 @@ class UI
 private:
 	sf::Font font;
 	std::vector<sf::Text> texts;
-
+	sf::RectangleShape LanderFuelBar;
+	sf::RectangleShape LanderFuelBarBack;
 
 public:
 	UI();
