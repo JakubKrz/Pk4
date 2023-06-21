@@ -10,7 +10,7 @@ private:
 	sf::Texture LanderTexture;
 
 	float speed_x, speed_y;
-	float rotationAngle;
+	int rotationAngle;
 	float fuel;
 
 	void initVariables();
@@ -29,5 +29,6 @@ public:
 	float getSpeedX() const;
 	float getSpeedY() const;
 	float getFuel() const;
+	int getRotationAngle() const;
 };
 

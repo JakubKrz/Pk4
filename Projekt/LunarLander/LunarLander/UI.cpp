@@ -38,6 +38,6 @@ void UI::update(sf::RenderTarget* target, const Lander& lander,const std::vector
 	texts[2].setString("Speedy:" + std::to_string(static_cast<int>(lander.getSpeedY()*10)));
 	texts[3].setString("Fuel:" + std::to_string(static_cast<int>(lander.getFuel())));
 	texts[4].setString("Kolizja:"+std::to_string(lander.checkCollision(groundPoints)));
-	texts[5].setString("uzupelnic");
+	texts[5].setString("RotationAngle:"+ std::to_string(lander.getRotationAngle()));
 
 }

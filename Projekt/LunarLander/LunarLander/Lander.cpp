@@ -33,9 +33,8 @@ Lander::~Lander()
 void Lander::update(sf::RenderTarget* target)
 {
 	this->updateInput();
-	this->speed_y += 0.01f;//dodanie grawitacji, dodac zmienna globalna lub w klasie
+	this->speed_y += 0.01f;//dodanie grawitacji
 	this->sprite.move(this->speed_x, this->speed_y);
-	//oblicznie predkosci(dodanie grawitacj) i zmiana polozenia(this->shape.move)
 }
 
 void Lander::updateInput()
@@ -44,11 +43,13 @@ void Lander::updateInput()
 	{
 		this->rotationAngle += -3;//zmienna o ile mozna sie obracaac jednorazowao zamiast 1
 		this->sprite.setRotation(this->rotationAngle);
+		this->rotationAngle = this->rotationAngle % 360;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		this->rotationAngle += 3;//zmienna o ile mozna sie obracaac jednorazowao zamiast 1
 		this->sprite.setRotation(this->rotationAngle);
+		this->rotationAngle = this->rotationAngle % 360;
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
@@ -57,7 +58,7 @@ void Lander::updateInput()
 			this->fuel -= 1.f;//zuzycie paliwa
 			this->speed_x += 0.2f * std::cosf(rotationAngle * (3.141 / 180) - 3.141 / 2);//przeniesc na zmienne pi i predkosc
 			this->speed_y += 0.2f * std::sinf(rotationAngle * (3.141 / 180) - 3.141 / 2);//dodac zmienna globalna pi i przyspoeszenie 0.2f
-			//dodanie pi/2 zeby "dol byl na dole"
+			//odejecie pi/2 zeby "dol byl na dole"
 		}
 	}
 }
@@ -173,4 +174,9 @@ float Lander::getSpeedY() const
 float Lander::getFuel() const
 {
 	return this->fuel;
+}
+
+int Lander::getRotationAngle() const
+{
+	return this->rotationAngle;
 }
