@@ -7,6 +7,13 @@
 class Game
 {
 private:
+	enum class GameState {
+		Menu,
+		Playing,
+		GameOver
+	};
+	GameState currentState;
+	UI UI;
 
 	sf::RenderWindow* window;
 	sf::VideoMode video;
@@ -14,7 +21,6 @@ private:
 
 	Lander lander;
 	Terrain terrain;
-	UI text;
 
 	void initVariables();
 	void initWindow();
@@ -28,7 +34,10 @@ public:
 
 	void render();
 	void update();
-	void updateEvents();
+	void updateEventsGame();
 	void gameOver();
+	void changeGameState(Game::GameState newState);
+	void updateEventsMenu();
+	void select(int item);
 };
 

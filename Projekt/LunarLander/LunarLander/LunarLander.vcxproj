@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameState.h" />
     <ClInclude Include="Lander.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="UI.h" />

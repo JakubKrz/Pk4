@@ -4,7 +4,7 @@
 #include "Terrain.h"
 
 class Lander
-{//TO DO: animacje silnika
+{//TO DO: animacje silnika ,  ustawic model ktorego nogi nie wykraczaja poza reszte
 private:
 	sf::Sprite sprite;
 	sf::Texture LanderTexture;

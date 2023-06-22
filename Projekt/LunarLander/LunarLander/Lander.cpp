@@ -16,16 +16,20 @@ void Lander::resetPosition(float x, float y)
 {
 	this->speed_x = 2.f;
 	this->speed_y = 0.f;
-	this->rotationAngle = 0.0f;
+	this->rotationAngle = 0;
 	this->sprite.setPosition(x, y);
 	this->sprite.setRotation(this->rotationAngle);
 }
 
 void Lander::landingUpdate()//TO DO:sprawdzic czy teren jest plaski (moze dodajac landing spot do terrain)
 {
-	if (this->speed_x < 10 && this->speed_y < 10 && std::abs(this->rotationAngle) < 20)
+	if (this->speed_x * 14 < 10 && this->speed_y * 14 < 10 && std::abs(this->rotationAngle) < 20)
 	{
 		this->points += 100;
+	}
+	else
+	{
+		this->fuel -= 300.f;
 	}
 }
 
@@ -82,7 +86,6 @@ void Lander::updateInput()
 		}
 	}
 }
-
 
 void Lander::render(sf::RenderTarget* target)
 {
