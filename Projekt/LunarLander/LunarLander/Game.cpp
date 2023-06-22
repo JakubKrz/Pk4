@@ -13,6 +13,7 @@ void Game::initWindow()
 
     this->window = new sf::RenderWindow(this->video, "Lunar Lander", sf::Style::Titlebar | sf::Style::Close | sf::Style::Fullscreen);
     this->window->setFramerateLimit(60);
+    this->window->setMouseCursorVisible(false);
 }
 
 //Public
