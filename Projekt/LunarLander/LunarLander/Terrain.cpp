@@ -1,32 +1,96 @@
 #include "Terrain.h"
 
+Terrain::Terrain()
+{
+    this->initVariables();
+    this->generateGround();
+}
+
+Terrain::~Terrain()
+{
+}
+
+void Terrain::generateGround()
+{
+    this->generatePoints();
+    this->generateLandingPads();
+    this->initShape();
+}
+
+void Terrain::generatePoints()
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> disY(400.0f, 1000.0f); // Adjust the Y range 
+
+    //genereating points for ground
+    for (size_t i = 0; i < size; ++i)
+    {
+        sf::Vector2f point(i * width, disY(gen));
+        this->groundPoints[i]=point;
+    }
+    //Eliminating diffrence between 2 points if its too big
+    for (size_t i = 1; i < groundPoints.size() - 1; ++i)
+    {
+        float diff = (this->groundPoints[i].y - this->groundPoints[i - 1].y);
+        if (std::abs(diff) > 450)
+        {
+            if (diff < 0) {
+                this->groundPoints[i].y += 450;
+            }
+            else
+            {
+                this->groundPoints[i].y -= 450;
+            }
+        }
+    }
+    //smoothing
+    for (size_t iteration = 0; iteration < 1; ++iteration)
+    {
+        for (size_t i = 3; i < groundPoints.size() - 3; ++i)
+        {
+            groundPoints[i].y = (0.5 * groundPoints[i - 2].y + groundPoints[i - 1].y + 2 * groundPoints[i].y + groundPoints[i + 1].y + 0.5 * groundPoints[i + 2].y) / 5.0f;
+        }
+    }
+}
 
 void Terrain::initVariables()
 {
-    this->groundPoints = { sf::Vector2f(0, 1075), sf::Vector2f(400, 700), sf::Vector2f(800, 900),sf::Vector2f(1200, 900),sf::Vector2f(1600, 400), sf::Vector2f(1925,1075) };
+    this->width = 20;
+    this->size = 1940 / width;
+    this->landingPadWidth = 3;//podzielnie przez 3 albo zmiana w gneratelandingpads
+    this->groundPoints.resize(this->size);
     this->groundColor = sf::Color::White;
+    this->groundShape.setPrimitiveType(sf::LineStrip);
+    this->groundShape.resize(this->groundPoints.size());
+}
+
+void Terrain::generateLandingPads()
+{       
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    //Calculating 3 areas for landingPads
+    size_t area=(this->size-3-landingPadWidth) / 3;
+    for (size_t i = 1; i < 3 * area; i += area)
+    {
+        std::uniform_real_distribution<float> dis(i, i + area);
+        size_t number = dis(gen);
+        float y = this->groundPoints[number].y;
+        for (size_t l = 0; l < this->landingPadWidth; ++l)
+        {
+            this->groundPoints[number + l + 1].y = y;
+        }
+        this->landingPads.push_back(std::make_pair<size_t, size_t>(this->groundPoints[number].x, this->groundPoints[number + this->landingPadWidth].x));
+    }
 }
 
 void Terrain::initShape()
 {
-    this->groundShape.setPrimitiveType(sf::LineStrip);
-    this->groundShape.resize(this->groundPoints.size());
-
     for (size_t i = 0; i < this->groundPoints.size(); ++i)
     {
         this->groundShape[i].position = groundPoints[i];
         this->groundShape[i].color = groundColor;
     }
-}
-
-Terrain::Terrain()
-{
-    this->initVariables();
-    this->initShape();
-}
-
-Terrain::~Terrain()
-{
 }
 
 void Terrain::render(sf::RenderTarget* target)
@@ -43,4 +107,9 @@ const std::vector<sf::Vector2f>& Terrain::GetGroundPoints() const
 const sf::VertexArray& Terrain::GetGroundShape() const
 {
     return this->groundShape;
+}
+
+std::vector<std::pair<size_t, size_t>> Terrain::getLandingPads()
+{
+    return this->landingPads;
 }

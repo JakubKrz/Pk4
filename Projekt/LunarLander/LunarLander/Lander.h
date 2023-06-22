@@ -31,8 +31,10 @@ public:
 	void render(sf::RenderTarget* target);
 
 	bool checkCollision(std::vector<sf::Vector2f> vertices) const;
-	void resetPosition(float x = 10.f, float y = 50.f);
-	void landingUpdate();
+	bool outOfScreen();
+	void resetPosition(float x = 30.f, float y = 150.f);
+	void landingUpdate(std::vector<std::pair<size_t, size_t>> landingPads);
+	void reset();
 //	TO DO : gettery & i const
 	float getLowestPoint() const;
 	float getHeight(std::vector<sf::Vector2f> groundPoints) const;//groundpoints prze referencje i const

@@ -21,16 +21,36 @@ void Lander::resetPosition(float x, float y)
 	this->sprite.setRotation(this->rotationAngle);
 }
 
-void Lander::landingUpdate()//TO DO:sprawdzic czy teren jest plaski (moze dodajac landing spot do terrain)
+void Lander::landingUpdate(std::vector<std::pair<size_t, size_t>> landingPads)//TO DO:sprawdzic czy teren jest plaski (moze dodajac landing spot do terrain)
 {
-	if (this->speed_x * 14 < 10 && this->speed_y * 14 < 10 && std::abs(this->rotationAngle) < 20)
+	float x = this->sprite.getPosition().x;
+	float width = this->sprite.getGlobalBounds().width/2;
+	bool sucesfull = false;
+	for (auto& pad : landingPads)
+	{
+		if (x-width > pad.first && x+width < pad.second)
+		{
+			if (this->speed_x * 14 < 10 && this->speed_y * 14 < 10 && std::abs(this->rotationAngle) < 20)
+			{
+				sucesfull = true;
+			}
+		}
+	}
+	if (sucesfull)
 	{
 		this->points += 100;
 	}
-	else
+	else 
 	{
-		this->fuel -= 300.f;
+		this->fuel -= 300;
 	}
+}
+
+void Lander::reset()
+{
+	this->fuel = this->maxFuel;
+	this->points = 0;
+	this->resetPosition();
 }
 
 void Lander::initSprite()
@@ -153,6 +173,16 @@ bool Lander::checkCollision(std::vector<sf::Vector2f> groundPoints) const
 		return true;
 	}
 
+	return false;
+}
+
+bool Lander::outOfScreen()
+{
+	if (this->sprite.getPosition().x < -this->sprite.getLocalBounds().width - 30.f || this->sprite.getPosition().x > this->sprite.getLocalBounds().width + 1950.f
+		|| this->sprite.getPosition().y < -this->sprite.getLocalBounds().height-30.f)
+	{
+		return true;
+	}
 	return false;
 }
 

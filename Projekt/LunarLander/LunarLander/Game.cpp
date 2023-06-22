@@ -4,7 +4,7 @@
 void Game::initVariables()
 {
     this->window = nullptr;
-    this->currentState = GameState::Menu;
+    this->currentState = GameState::Playing;
 }
 
 void Game::initWindow()
@@ -75,18 +75,23 @@ void Game::update()
 
     case GameState::Playing:
         this->updateEventsGame();
-
         this->lander.update(this->window);
-        this->UI.update(this->window, lander, terrain.GetGroundPoints());//zamiana zeby byl polimorfizm
+        this->UI.update(this->window, lander, terrain.GetGroundPoints());
+        if (this->lander.outOfScreen())//Reset positionif out of screen
+        {
+            this->lander.resetPosition();
+        }
         //Reset position if crashed and fuel>0
         //TO DO: check if landing was succesful and add points
-        if (lander.checkCollision(terrain.GetGroundPoints()))
+        if (this->lander.checkCollision(this->terrain.GetGroundPoints()))
         {
-            lander.landingUpdate();
-            if (lander.getFuel() > 0)
+            lander.landingUpdate(this->terrain.getLandingPads());
+            if (this->lander.getFuel() > 0)
             {
                 //TO DO : czy teren jest plaski?
-                lander.resetPosition();
+                this->lander.resetPosition();
+                this->terrain.generateGround();
+                //TO DO: Pasue for some time and show text
             }
             else
             {
@@ -177,6 +182,7 @@ void Game::select(int item)
     switch (item)
     {
     case 0:
+        this->lander.reset();//TO DO: generate terrain random
         this->changeGameState(GameState::Playing);
         break;
     case 1:
