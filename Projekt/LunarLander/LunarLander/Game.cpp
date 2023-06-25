@@ -4,7 +4,8 @@
 void Game::initVariables()
 {
     this->window = nullptr;
-    this->currentState = GameState::Playing;
+    this->currentState = GameState::GameOver;
+    this->input = "";
 }
 
 void Game::initWindow()
@@ -54,9 +55,15 @@ void Game::render()
 
         break;
 
-    case GameState::GameOver:
-        // Render game over UI elements
+    case GameState::ShowScores:
+        this->UI.renderScores(this->window);
        // 
+        break;
+    case GameState::GameOver:
+        //TO DO
+        this->UI.renderGameOver(this->window, this->input,this->lander.getPoints());
+        this->lander.render(this->window);
+        this->terrain.render(this->window);
         break;
     }
 
@@ -89,22 +96,32 @@ void Game::update()
             lander.landingUpdate(this->terrain.getLandingPads());
             if (this->lander.getFuel() > 0)
             {
-                //TO DO : czy teren jest plaski?
+                // TO DO generate message succesfull landing or not succesfull
+                //show text
+                //sf::sleep(sf::Time(sf::seconds(3.0f)));
+                //TO DO: Pasue for some time and 
                 this->lander.resetPosition();
                 this->terrain.generateGround();
-                //TO DO: Pasue for some time and show text
+
+
             }
             else
             {
                 //TO DO : Game over
                 //zapisac punkty a nastepnie ustawic na 0
-                this->gameOver();
+                // wyswietlic napis
+                //sf::sleep(sf::Time(sf::seconds(3.0f)));
+                this->changeGameState(GameState::GameOver);
             }
         }
         break;
 
+    case GameState::ShowScores:
+        this->updateEventScore();
+        break;
     case GameState::GameOver:
-        //
+        //TO DO
+        this->updateGameOver();
         break;
     }
 
@@ -122,21 +139,10 @@ void Game::updateEventsGame()
             break;
         case sf::Event::KeyPressed:
             if (this->event.key.code == sf::Keyboard::Escape)
-                this->window->close();
+                this->changeGameState(GameState::Menu);
             break;
         }
     }
-}
-
-void Game::gameOver()//TO DO: dopisac reszte zpisywanie do pliku , filesystem, przejscei do menu
-{
-    //save score
-    //wyswietlic game over , your score:xxxx  (to moze w stanie gry gmaeover)
-    // wait for any acction 
-    //set score to 0 , reset lander
-    //set gamestate to menu
-    this->changeGameState(GameState::Menu);// tymczasowe
-   // this->window->close();//remove
 }
 
 void Game::changeGameState(Game::GameState newState)
@@ -178,18 +184,93 @@ void Game::updateEventsMenu()
     }
 }
 
+
 void Game::select(int item)
 {
     switch (item)
     {
     case 0:
-        this->lander.reset();//TO DO: generate terrain random
+        this->terrain.generateGround();
+        this->lander.reset();
         this->changeGameState(GameState::Playing);
         break;
     case 1:
         //tutaj wyswietlac wyniki
+        this->UI.loadScores(this->fileManager.readScore());
+        this->changeGameState(GameState::ShowScores);
         break;
     case 2:
         this->window->close();
+    }
+}
+
+void Game::updateEventScore()
+{
+    while (this->window->pollEvent(this->event))
+    {
+        switch (this->event.type)
+        {
+        case sf::Event::Closed:
+            this->window->close();
+            break;
+        case sf::Event::KeyPressed:
+            if (this->event.key.code == sf::Keyboard::Escape)
+                this->changeGameState(GameState::Menu); 
+            break;
+        }
+    }
+}
+
+void Game::updateGameOver()
+{
+    while (this->window->pollEvent(this->event))
+    {
+        switch (this->event.type)
+        {
+        case sf::Event::Closed:
+            this->window->close();
+            break;
+
+        case sf::Event::TextEntered:
+            if (this->event.text.unicode == '\b')
+            {
+                if (!this->input.empty())
+                {
+                    this->input.pop_back();
+                }
+            }
+            else if (this->event.text.unicode == '\r')
+            {
+            }
+            else
+            {
+                this->input += event.text.unicode;
+            }
+            break;
+
+        case sf::Event::KeyPressed:
+            if (this->event.key.code == sf::Keyboard::Escape)
+            {
+                this->changeGameState(GameState::Menu);
+            }
+            else if (this->event.key.code == sf::Keyboard::Enter)
+            {
+                if (this->fileManager.checkName(this->input))
+                {
+                    this->fileManager.writeScore(this->input, this->lander.getPoints());
+                    this->input = "";
+                    this->changeGameState(GameState::Menu);
+                }
+                else
+                {
+                    this->input.clear();
+                    this->input = "";
+
+                    //pokazac wiadomosc o nieprawidlowym nicku TO DO
+                }
+            }
+            break;
+
+        }
     }
 }

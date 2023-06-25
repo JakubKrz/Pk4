@@ -11,6 +11,7 @@ private:
 
 	float speed_x, speed_y;
 	int rotationAngle;
+	int rotationValue;
 	float maxFuel;
 
 	float fuel;

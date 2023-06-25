@@ -9,8 +9,8 @@ private:
 	sf::VertexArray groundShape;
 	sf::Color groundColor;
 	//groundpoints
-	int width;
-	int size;
+	size_t width;
+	size_t size;
 	//landing points
 	std::vector<std::pair<size_t, size_t>> landingPads;
 	size_t landingPadWidth;

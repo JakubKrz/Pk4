@@ -35,6 +35,7 @@ void UI::initGameUI()
 	this->gameTexts[3].setPosition(30, 20);//fuel
 	this->gameTexts[4].setPosition(1730, 125);//angle 
 	this->gameTexts[5].setPosition(30, 90);//points
+
 	this->LanderFuelBar.setSize(sf::Vector2f(150.f, 20.f));
 	this->LanderFuelBar.setFillColor(sf::Color(255, 255, 255, 255));
 	this->LanderFuelBar.setPosition(sf::Vector2f(30.f, 65.f));
@@ -42,6 +43,7 @@ void UI::initGameUI()
 	this->LanderFuelBarBack = this->LanderFuelBar;
 	this->LanderFuelBarBack.setFillColor(sf::Color(125, 125, 125, 125));
 }
+
 
 UI::UI()
 {
@@ -54,6 +56,9 @@ UI::UI()
 
 	//in game texts
 	this->initGameUI();
+
+	this->initGameOver();
+
 }
 
 UI::~UI()
@@ -69,6 +74,8 @@ void UI::render(sf::RenderTarget* target)
 	target->draw(this->LanderFuelBar);
 	target->draw(this->LanderFuelBarBack);
 }
+
+
 
 void UI::renderMenu(sf::RenderTarget* target)
 {
@@ -105,6 +112,32 @@ int UI::getSelectedItem()
 	return this->selectedItem;
 }
 
+
+void UI::renderScores(sf::RenderTarget* target)
+{
+	for (sf::Text& text : this->results)
+	{
+		target->draw(text);
+	}
+}
+
+void UI::loadScores(std::vector<std::pair<std::string, int>> scores)
+{
+	this->results.clear();
+	this->results.resize(10);
+	for (sf::Text& text : this->results)
+	{
+		text.setFont(this->font);
+		text.setCharacterSize(30);
+		text.setFillColor(sf::Color::White);
+	}
+	for (size_t i = 0; i < scores.size() && i < this->results.size(); ++i)
+	{
+		this->results[i].setString(std::to_string(i + 1) + "." + scores[i].first + " : " + std::to_string(scores[i].second));
+		this->results[i].setPosition(860, 300 + i * 50);
+	}
+}
+
 void UI::update(sf::RenderTarget* target, const Lander& lander,const std::vector<sf::Vector2f>& groundPoints)
 {
 	gameTexts[0].setString("Height:" + std::to_string(static_cast<int>(lander.getHeight(groundPoints)) / 5)); //adjustment for better precision
@@ -117,4 +150,32 @@ void UI::update(sf::RenderTarget* target, const Lander& lander,const std::vector
 	
 	this->LanderFuelBar.setSize(sf::Vector2f(this->LanderFuelBarBack.getSize().x * (lander.getFuel() / lander.getMaxFuel()), this->LanderFuelBarBack.getSize().y));// bar length * % of fuel
 
+}
+
+void UI::initGameOver()
+{
+	this->nickname.setFont(this->font);
+	this->nickname.setCharacterSize(30);
+	this->nickname.setPosition(700, 300);
+	this->nickname.setFillColor(sf::Color::White);
+
+	this->gameOver.setFont(this->font);
+	this->gameOver.setCharacterSize(30);
+	this->gameOver.setPosition(700, 400);
+	this->gameOver.setFillColor(sf::Color::Red);
+	this->gameOver.setString("Game over");
+
+	this->points.setFont(this->font);
+	this->points.setCharacterSize(30);
+	this->points.setPosition(700, 500);
+	this->points.setFillColor(sf::Color::White);
+}
+
+void UI::renderGameOver(sf::RenderTarget* target, std::string name, int score)
+{
+	this->nickname.setString("Enter nickname\n"+name);
+	this->points.setString("Your Points: " + std::to_string(score));
+	target->draw(this->nickname);
+	target->draw(this->gameOver);
+	target->draw(this->points);
 }

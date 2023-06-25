@@ -1,15 +1,19 @@
 #include "Lander.h"
 #include <iostream>
 
+#define PI 3.14159
+
 void Lander::initVariables()//poczatkowe ilosci predkosci,obrotu,paliwa
 {
 	this->resetPosition();
 	this->maxFuel = 1000.f;
 	this->fuel = this->maxFuel;
-	this->gravity = 0.008f;
+	this->gravity = 0.006f;
 	this->acceleration = 0.02f;
 	this->fuelConsuption = 0.5f;
 	this->points = 0;
+	this->rotationAngle = 0;
+	this->rotationValue = 2;
 }
 
 void Lander::resetPosition(float x, float y)
@@ -56,7 +60,7 @@ void Lander::reset()
 void Lander::initSprite()
 {	
 	this->LanderTexture.loadFromFile("C:/Users/krzyw/Source/Repos/PK4/Projekt/LunarLander/Textures/test1.png");//TO DO:tutaj uzyc filesystem
-	
+
 	this->sprite.setTexture(this->LanderTexture);
 	this->sprite.setOrigin(this->sprite.getLocalBounds().width/2, this->sprite.getLocalBounds().height / 2);
 	this->sprite.setScale(1.f, 1.f);
@@ -85,13 +89,13 @@ void Lander::updateInput()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		this->rotationAngle += -3;//zmienna o ile mozna sie obracaac jednorazowao zamiast 1
+		this->rotationAngle += -this->rotationValue;//zmienna o ile mozna sie obracaac jednorazowao zamiast 1
 		this->sprite.setRotation(this->rotationAngle);
 		this->rotationAngle = this->rotationAngle % 360;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		this->rotationAngle += 3;//zmienna o ile mozna sie obracaac jednorazowao zamiast 1
+		this->rotationAngle += this->rotationValue;//zmienna o ile mozna sie obracaac jednorazowao zamiast 1
 		this->sprite.setRotation(this->rotationAngle);
 		this->rotationAngle = this->rotationAngle % 360;
 	}
@@ -100,8 +104,8 @@ void Lander::updateInput()
 		if (fuel > 0)
 		{
 			this->fuel -= fuelConsuption;
-			this->speed_x += this->acceleration * std::cosf(rotationAngle * (3.141 / 180) - 3.141 / 2);//przeniesc na zmienne pi i predkoscTO DO:
-			this->speed_y += this->acceleration * std::sinf(rotationAngle * (3.141 / 180) - 3.141 / 2);//dodac zmienna globalna pi i przyspoeszenie 0.2f
+			this->speed_x += this->acceleration * std::cosf(rotationAngle * (PI / 180.f) - PI / 2.f);//przeniesc na zmienne pi i predkoscTO DO:
+			this->speed_y += this->acceleration * std::sinf(rotationAngle * (PI / 180.f) - PI / 2.f);//dodac zmienna globalna pi i przyspoeszenie 0.2f
 			//odejecie pi/2 zeby "dol byl na dole"
 		}
 	}

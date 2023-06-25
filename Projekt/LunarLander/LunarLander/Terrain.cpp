@@ -24,7 +24,7 @@ void Terrain::generatePoints()
     std::uniform_real_distribution<float> disY(400.0f, 1000.0f); // Adjust the Y range 
 
     //genereating points for ground
-    for (size_t i = 0; i < size; ++i)
+    for (size_t i = 0; i < this->size; ++i)
     {
         sf::Vector2f point(i * width, disY(gen));
         this->groundPoints[i]=point;
@@ -49,7 +49,7 @@ void Terrain::generatePoints()
     {
         for (size_t i = 3; i < groundPoints.size() - 3; ++i)
         {
-            groundPoints[i].y = (0.5 * groundPoints[i - 2].y + groundPoints[i - 1].y + 2 * groundPoints[i].y + groundPoints[i + 1].y + 0.5 * groundPoints[i + 2].y) / 5.0f;
+            groundPoints[i].y = (0.5f * groundPoints[i - 2].y + groundPoints[i - 1].y + 2.f * groundPoints[i].y + groundPoints[i + 1].y + 0.5f * groundPoints[i + 2].y) / 5.0f;
         }
     }
 }
@@ -73,8 +73,8 @@ void Terrain::generateLandingPads()
     size_t area=(this->size-3-landingPadWidth) / 3;
     for (size_t i = 1; i < 3 * area; i += area)
     {
-        std::uniform_real_distribution<float> dis(i, i + area);
-        size_t number = dis(gen);
+        std::uniform_real_distribution<float> dis(i, static_cast<float>(i) + area);
+        size_t number = static_cast<size_t>(dis(gen));
         float y = this->groundPoints[number].y;
         for (size_t l = 0; l < this->landingPadWidth; ++l)
         {
@@ -88,7 +88,7 @@ void Terrain::initShape()
 {
     for (size_t i = 0; i < this->groundPoints.size(); ++i)
     {
-        this->groundShape[i].position = groundPoints[i];
+        this->groundShape[i].position = groundPoints[i];    
         this->groundShape[i].color = groundColor;
     }
 }
