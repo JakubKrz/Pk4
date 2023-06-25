@@ -25,7 +25,7 @@ void Lander::resetPosition(float x, float y)
 	this->sprite.setRotation(this->rotationAngle);
 }
 
-void Lander::landingUpdate(std::vector<std::pair<size_t, size_t>> landingPads)//TO DO:sprawdzic czy teren jest plaski (moze dodajac landing spot do terrain)
+bool Lander::landingUpdate(std::vector<std::pair<size_t, size_t>> landingPads)//TO DO:sprawdzic czy teren jest plaski (moze dodajac landing spot do terrain)
 {
 	float x = this->sprite.getPosition().x;
 	float width = this->sprite.getGlobalBounds().width/2;
@@ -48,6 +48,7 @@ void Lander::landingUpdate(std::vector<std::pair<size_t, size_t>> landingPads)//
 	{
 		this->fuel -= 300;
 	}
+	return(sucesfull);
 }
 
 void Lander::reset()

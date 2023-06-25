@@ -23,6 +23,10 @@ private:
 	sf::Text nickname;
 	sf::Text gameOver;
 	sf::Text points;
+	sf::Text message;
+
+	sf::Text crashMessage;
+	sf::Text sucessfulLandingMessage;
 
 	void initMenuOptions();
 	void initGameUI();
@@ -39,6 +43,8 @@ public:
 	void loadScores(std::vector<std::pair<std::string, int>> scores);
 	void initGameOver();
 	void renderGameOver(sf::RenderTarget* target, std::string name, int score);
+	void succesfullLanding(sf::RenderTarget* target);
+	void crash(sf::RenderTarget* target);
 
 	void render(sf::RenderTarget* target);
 	void update(sf::RenderTarget* target, const Lander& lander,const std::vector<sf::Vector2f>& groundPoints);

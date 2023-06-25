@@ -6,7 +6,7 @@ FileManager::FileManager()
 	this->landerTexture = currentDirectory / "Textures" / "test1.png";//przeniesc pliki i zmienic kod
 	this->bestScores = currentDirectory / "Scores" / "BestScores.txt";
 	this->font = currentDirectory/"Fonts"/"zector" / "Zectro.ttf";//przeniesc pliki i zmienic kod
-	this->pattern = "^[a-zA-Z0-9]{3,8}$";
+	this->pattern = "^[a-zA-Z0-9]{3,12}$";
 	//przeniesc chyba do ui
 	//sprawdzanie nazwy chyba tez w ui
 	//gdy nazwa przejdzie zapisuje i wysylam zeby zapisac do pliku

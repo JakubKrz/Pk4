@@ -4,7 +4,7 @@
 void Game::initVariables()
 {
     this->window = nullptr;
-    this->currentState = GameState::GameOver;
+    this->currentState = GameState::Playing;
     this->input = "";
 }
 
@@ -93,12 +93,23 @@ void Game::update()
         //TO DO: check if landing was succesful and add points
         if (this->lander.checkCollision(this->terrain.GetGroundPoints()))
         {
-            lander.landingUpdate(this->terrain.getLandingPads());
+            if (!lander.landingUpdate(this->terrain.getLandingPads()))
+            {
+                this->UI.crash(this->window);
+                this->window->display();
+                sf::sleep(sf::Time(sf::seconds(2.0f)));
+            }
+            else
+            {
+                this->UI.succesfullLanding(this->window);
+                this->window->display();
+                sf::sleep(sf::Time(sf::seconds(2.0f)));
+            }
             if (this->lander.getFuel() > 0)
             {
                 // TO DO generate message succesfull landing or not succesfull
                 //show text
-                //sf::sleep(sf::Time(sf::seconds(3.0f)));
+
                 //TO DO: Pasue for some time and 
                 this->lander.resetPosition();
                 this->terrain.generateGround();

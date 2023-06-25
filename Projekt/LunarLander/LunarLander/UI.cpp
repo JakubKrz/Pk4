@@ -42,6 +42,7 @@ void UI::initGameUI()
 
 	this->LanderFuelBarBack = this->LanderFuelBar;
 	this->LanderFuelBarBack.setFillColor(sf::Color(125, 125, 125, 125));
+
 }
 
 
@@ -155,27 +156,63 @@ void UI::update(sf::RenderTarget* target, const Lander& lander,const std::vector
 void UI::initGameOver()
 {
 	this->nickname.setFont(this->font);
-	this->nickname.setCharacterSize(30);
-	this->nickname.setPosition(700, 300);
+	this->nickname.setCharacterSize(40);
+	this->nickname.setPosition(830, 330);
 	this->nickname.setFillColor(sf::Color::White);
 
+
 	this->gameOver.setFont(this->font);
-	this->gameOver.setCharacterSize(30);
-	this->gameOver.setPosition(700, 400);
+	this->gameOver.setCharacterSize(100);
+	this->gameOver.setPosition(735, 50);
 	this->gameOver.setFillColor(sf::Color::Red);
 	this->gameOver.setString("Game over");
 
 	this->points.setFont(this->font);
-	this->points.setCharacterSize(30);
-	this->points.setPosition(700, 500);
+	this->points.setCharacterSize(50);
+	this->points.setPosition(770, 175);
 	this->points.setFillColor(sf::Color::White);
+
+	this->message.setFont(this->font);
+	this->message.setCharacterSize(30);
+	this->message.setPosition(840, 380);
+	this->message.setFillColor(sf::Color(200,200,200,200));
+	this->message.setString("Enter nickname");
+	
+	this->sucessfulLandingMessage.setFont(this->font);
+	this->sucessfulLandingMessage.setCharacterSize(50);
+	this->sucessfulLandingMessage.setPosition(730, 180);//mozna zmienc z local boidns tak jak wpisywanie nicku
+	this->sucessfulLandingMessage.setFillColor(sf::Color(200, 200, 200, 200));
+	this->sucessfulLandingMessage.setString("Sucessfull landing");
+
+	this->crashMessage.setFont(this->font);
+	this->crashMessage.setCharacterSize(50);
+	this->crashMessage.setPosition(840, 180);//mozna zmienc z local boidns tak jak wpisywanie nicku TO DO
+	this->crashMessage.setFillColor(sf::Color(200, 200, 200, 200));
+	this->crashMessage.setString("You crashed");
 }
 
 void UI::renderGameOver(sf::RenderTarget* target, std::string name, int score)
 {
-	this->nickname.setString("Enter nickname\n"+name);
+	sf::FloatRect textBounds = nickname.getLocalBounds();
+	nickname.setPosition(950 - textBounds.width/2, 330);
+
+	this->nickname.setString(name);
 	this->points.setString("Your Points: " + std::to_string(score));
 	target->draw(this->nickname);
 	target->draw(this->gameOver);
 	target->draw(this->points);
+	target->draw(this->message);
+
 }
+
+void UI::succesfullLanding(sf::RenderTarget* target)
+{
+	target->draw(this->sucessfulLandingMessage);
+}
+
+void UI::crash(sf::RenderTarget* target)
+{
+	target->draw(this->crashMessage); 
+}
+
+
