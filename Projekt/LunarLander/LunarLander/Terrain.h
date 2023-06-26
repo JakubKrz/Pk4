@@ -14,11 +14,15 @@ private:
 	//landing points
 	std::vector<std::pair<size_t, size_t>> landingPads;
 	size_t landingPadWidth;
+	sf::Font font;
+	sf::Text multiplier[3];
+
 
 	void initShape();
 	void generatePoints();
 	void initVariables();
 	void generateLandingPads();
+	void initMultiplier();
 public:
 	Terrain();
 	~Terrain();

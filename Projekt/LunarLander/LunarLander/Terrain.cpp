@@ -4,6 +4,7 @@ Terrain::Terrain()
 {
     this->initVariables();
     this->generateGround();
+    this->initMultiplier();
 }
 
 Terrain::~Terrain()
@@ -69,8 +70,10 @@ void Terrain::generateLandingPads()
 {       
     std::random_device rd;
     std::mt19937 gen(rd());
+    this->landingPads.clear();
     //Calculating 3 areas for landingPads
     size_t area=(this->size-3-landingPadWidth) / 3;
+    size_t m = 0;
     for (size_t i = 1; i < 3 * area; i += area)
     {
         std::uniform_real_distribution<float> dis(i, static_cast<float>(i) + area);
@@ -81,7 +84,26 @@ void Terrain::generateLandingPads()
             this->groundPoints[number + l + 1].y = y;
         }
         this->landingPads.push_back(std::make_pair<size_t, size_t>(this->groundPoints[number].x, this->groundPoints[number + this->landingPadWidth].x));
+        this->multiplier[m].setPosition((this->landingPads[this->landingPads.size() - 1].first + this->landingPadWidth/2.f)+11.5f , y + 5.f);
+        ++m;
     }
+}
+
+void Terrain::initMultiplier()
+{
+    if (!this->font.loadFromFile("C:/Users/krzyw/Source/Repos/PK4/Projekt/LunarLander/Fonts/zector/Zector.ttf"))//filesystem
+    {
+    }
+        for (size_t i = 0; i < 3; ++i)
+        {
+            this->multiplier[i].setFont(this->font);
+            this->multiplier[i].setCharacterSize(30);
+            this->multiplier[i].setFillColor(sf::Color::White);
+        }
+        this->multiplier[0].setString("1x");
+        this->multiplier[1].setString("2x");
+        this->multiplier[2].setString("5x");
+
 }
 
 void Terrain::initShape()
@@ -96,6 +118,10 @@ void Terrain::initShape()
 void Terrain::render(sf::RenderTarget* target)
 {
     target->draw(this->groundShape);
+    for (size_t i = 0; i < 3; ++i)
+    {
+        target->draw(this->multiplier[i]);
+    }
 }
 
 

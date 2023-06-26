@@ -30,6 +30,8 @@ bool Lander::landingUpdate(std::vector<std::pair<size_t, size_t>> landingPads)//
 	float x = this->sprite.getPosition().x;
 	float width = this->sprite.getGlobalBounds().width/2;
 	bool sucesfull = false;
+	int i = 0;
+	int m = 0;
 	for (auto& pad : landingPads)
 	{
 		if (x-width > pad.first && x+width < pad.second)
@@ -37,12 +39,23 @@ bool Lander::landingUpdate(std::vector<std::pair<size_t, size_t>> landingPads)//
 			if (this->speed_x * 14 < 10 && this->speed_y * 14 < 10 && std::abs(this->rotationAngle) < 20)
 			{
 				sucesfull = true;
+				m = i;
 			}
 		}
+		++i;
 	}
 	if (sucesfull)
 	{
-		this->points += 100;
+		std::cout << m << " \n";
+		if (m == 0) {
+			this->points += 100;
+		}
+		else if (m == 1)
+		{
+			this->points += 200;
+		}else{
+			this->points += 500;
+		}
 	}
 	else 
 	{
@@ -143,6 +156,7 @@ float Lander::getLowestPoint() const
 
 bool Lander::checkCollision(std::vector<sf::Vector2f> groundPoints) const
 {
+
 	sf::FloatRect spriteBounds = this->sprite.getGlobalBounds();
 	sf::Vector2f spriteCenter(spriteBounds.left + spriteBounds.width / 2.0f, spriteBounds.top + spriteBounds.height / 2.0f);
 
