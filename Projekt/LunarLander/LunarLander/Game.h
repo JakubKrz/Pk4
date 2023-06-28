@@ -32,6 +32,13 @@ private:
 	void initVariables();
 	void initWindow();
 
+	void updateEventsGame();
+	void changeGameState(Game::GameState newState);
+	void updateEventsMenu();
+	void select(int item);
+	void updateEventScore();
+	void updateGameOver();
+
 public:
 
 	Game();
@@ -41,12 +48,5 @@ public:
 
 	void render();
 	void update();
-	void updateEventsGame();
-	void gameOver();
-	void changeGameState(Game::GameState newState);
-	void updateEventsMenu();
-	void select(int item);
-	void updateEventScore();
-	void updateGameOver();
 };
 

@@ -1,15 +1,10 @@
-niemozliwe 27
 test 300
 jakub 600
-
-ssdf 0
-testowanie 100
-jakub 0
 test2 400
-jupi 100
 skewdude 100
-ghj 100
-asd 0
-jakub 0
-jAKUB 0
 testowe10 900
+jakubk 2100
+jkk 300
+zero 0
+
+asd 600

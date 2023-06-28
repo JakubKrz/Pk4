@@ -3,7 +3,7 @@
 #include <iostream>
 
 #include "Lander.h"
-//TO DO :przeniesc wartosci w odpowiednie miejsce na ekranie (ewentualnie stopien nachylenia zrobic
+
 //game ui
 class UI
 {
@@ -30,24 +30,24 @@ private:
 
 	void initMenuOptions();
 	void initGameUI();
+	void initGameOver();
 
 public:
 	UI();
-	~UI();
-
-	void renderScores(sf::RenderTarget* target);
+	//in-Game
+	void update(sf::RenderTarget* target, const Lander& lander, const std::vector<sf::Vector2f>& groundPoints);
+	void render(sf::RenderTarget* target);
+	void succesfullLanding(sf::RenderTarget* target);
+	void crash(sf::RenderTarget* target);
+	//Menu
 	void renderMenu(sf::RenderTarget* target);
 	void moveUp();
 	void moveDown();
 	int getSelectedItem();
-	void loadScores(std::vector<std::pair<std::string, int>> scores);
-	void initGameOver();
+	//Scores
+	void loadScores(const std::vector<std::pair<std::string, int>>& scores);
+	void renderScores(sf::RenderTarget* target);
+	//Gameover
 	void renderGameOver(sf::RenderTarget* target, std::string name, int score);
-	void succesfullLanding(sf::RenderTarget* target);
-	void crash(sf::RenderTarget* target);
-
-	void render(sf::RenderTarget* target);
-	void update(sf::RenderTarget* target, const Lander& lander,const std::vector<sf::Vector2f>& groundPoints);
-
 };
 

@@ -3,7 +3,6 @@
 int main()
 {
     Game game;
-    //gettery zamieniac
 
     while (game.windowIsOpen())
     {

@@ -4,7 +4,7 @@
 void Game::initVariables()
 {
     this->window = nullptr;
-    this->currentState = GameState::Playing;
+    this->currentState = GameState::Menu;
     this->input = "";
 }
 
@@ -41,29 +41,29 @@ void Game::render()
 
     switch (this->currentState)
     {
+
     case GameState::Menu:
-        // Render menu UI elements
         this->UI.renderMenu(this->window);
+        
         break;
 
     case GameState::Playing:
-        // Render in-game UI elements
-        //
         this->terrain.render(this->window);
-        this->lander.render(this->window);//przesylanie window zeby sprawdzic czy nie wyszedl za okno
+        this->lander.render(this->window);
         this->UI.render(this->window);
 
         break;
 
     case GameState::ShowScores:
         this->UI.renderScores(this->window);
-       // 
+       
         break;
+
     case GameState::GameOver:
-        //TO DO
         this->UI.renderGameOver(this->window, this->input,this->lander.getPoints());
         this->lander.render(this->window);
         this->terrain.render(this->window);
+
         break;
     }
 
@@ -73,25 +73,25 @@ void Game::render()
 
 void Game::update()
 {
-//zmienic odpowidnie dla kadzdego stanu
-
     switch (this->currentState) 
     {
+
     case GameState::Menu:
         this->updateEventsMenu();
+
             break;
 
     case GameState::Playing:
         this->updateEventsGame();
         this->lander.update(this->window);
         this->UI.update(this->window, lander, terrain.GetGroundPoints());
-        if (this->lander.outOfScreen())//Reset positionif out of screen
+
+        if (this->lander.outOfScreen())//Reset position if out of screen
         {
             this->lander.resetPosition();
         }
-        //Reset position if crashed and fuel>0
-        //TO DO: check if landing was succesful and add points
-        if (this->lander.checkCollision(this->terrain.GetGroundPoints()))
+
+        if (this->lander.checkCollision(this->terrain.GetGroundPoints()))//checking for collision
         {
             if (!lander.landingUpdate(this->terrain.getLandingPads()))
             {
@@ -105,34 +105,29 @@ void Game::update()
                 this->window->display();
                 sf::sleep(sf::Time(sf::seconds(2.0f)));
             }
+
             if (this->lander.getFuel() > 0)
             {
-                // TO DO generate message succesfull landing or not succesfull
-                //show text
-
-                //TO DO: Pasue for some time and 
                 this->lander.resetPosition();
                 this->terrain.generateGround();
-
-
             }
             else
             {
-                //TO DO : Game over
-                //zapisac punkty a nastepnie ustawic na 0
-                // wyswietlic napis
-                //sf::sleep(sf::Time(sf::seconds(3.0f)));
+                this->input.clear();
                 this->changeGameState(GameState::GameOver);
             }
         }
+
         break;
 
     case GameState::ShowScores:
         this->updateEventScore();
+  
         break;
+
     case GameState::GameOver:
-        //TO DO
         this->updateGameOver();
+       
         break;
     }
 
@@ -147,20 +142,20 @@ void Game::updateEventsGame()
         {
         case sf::Event::Closed:
             this->window->close();
+            
             break;
+
         case sf::Event::KeyPressed:
             if (this->event.key.code == sf::Keyboard::Escape)
+            {
                 this->changeGameState(GameState::Menu);
+            }
+
             break;
         }
     }
 }
 
-void Game::changeGameState(Game::GameState newState)
-{
-   this->currentState = newState;
-    
-}
 
 void Game::updateEventsMenu()
 {
@@ -195,7 +190,7 @@ void Game::updateEventsMenu()
     }
 }
 
-
+//Select item form menu
 void Game::select(int item)
 {
     switch (item)
@@ -206,7 +201,6 @@ void Game::select(int item)
         this->changeGameState(GameState::Playing);
         break;
     case 1:
-        //tutaj wyswietlac wyniki
         this->UI.loadScores(this->fileManager.readScore());
         this->changeGameState(GameState::ShowScores);
         break;
@@ -215,6 +209,7 @@ void Game::select(int item)
     }
 }
 
+//Change state back to menu if esc is pressed
 void Game::updateEventScore()
 {
     while (this->window->pollEvent(this->event))
@@ -232,6 +227,7 @@ void Game::updateEventScore()
     }
 }
 
+//display gameoverUI and checks for valid name
 void Game::updateGameOver()
 {
     while (this->window->pollEvent(this->event))
@@ -276,12 +272,15 @@ void Game::updateGameOver()
                 {
                     this->input.clear();
                     this->input = "";
-
-                    //pokazac wiadomosc o nieprawidlowym nicku TO DO
                 }
             }
             break;
 
         }
     }
+}
+
+void Game::changeGameState(Game::GameState newState)
+{
+    this->currentState = newState;
 }

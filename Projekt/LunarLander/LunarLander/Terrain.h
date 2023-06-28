@@ -3,15 +3,15 @@
 #include <random>
 
 class Terrain
-{//TO DO : landing pads wyswietlanie gdzie sa i ew dodatkowe bonust
+{
 private:
 	std::vector<sf::Vector2f> groundPoints;
 	sf::VertexArray groundShape;
 	sf::Color groundColor;
-	//groundpoints
+	//groundpoints variables
 	size_t width;
 	size_t size;
-	//landing points
+	//landing points variables
 	std::vector<std::pair<size_t, size_t>> landingPads;
 	size_t landingPadWidth;
 	sf::Font font;
@@ -25,12 +25,11 @@ private:
 	void initMultiplier();
 public:
 	Terrain();
-	~Terrain();
 
 	void generateGround();
 	void render(sf::RenderTarget* target);
 	const std::vector<sf::Vector2f>& GetGroundPoints() const;
 	const sf::VertexArray& GetGroundShape() const;
-	std::vector<std::pair<size_t, size_t>> getLandingPads();
+	const std::vector<std::pair<size_t, size_t>>& getLandingPads() const;
 };
 

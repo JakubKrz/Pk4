@@ -1,14 +1,19 @@
 #include "Terrain.h"
 
-Terrain::Terrain()
+Terrain::Terrain() : width(20), landingPadWidth(3)
 {
     this->initVariables();
     this->generateGround();
     this->initMultiplier();
 }
 
-Terrain::~Terrain()
+void Terrain::initVariables()
 {
+    this->size = 1940 / width;
+    this->groundPoints.resize(this->size);
+    this->groundColor = sf::Color::White;
+    this->groundShape.setPrimitiveType(sf::LineStrip);
+    this->groundShape.resize(this->groundPoints.size());
 }
 
 void Terrain::generateGround()
@@ -18,11 +23,12 @@ void Terrain::generateGround()
     this->initShape();
 }
 
+//Generate random points for ground
 void Terrain::generatePoints()
 {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> disY(400.0f, 1000.0f); // Adjust the Y range 
+    std::uniform_real_distribution<float> disY(400.0f, 1000.0f); //y -range
 
     //genereating points for ground
     for (size_t i = 0; i < this->size; ++i)
@@ -55,17 +61,7 @@ void Terrain::generatePoints()
     }
 }
 
-void Terrain::initVariables()
-{
-    this->width = 20;
-    this->size = 1940 / width;
-    this->landingPadWidth = 3;//podzielnie przez 3 albo zmiana w gneratelandingpads
-    this->groundPoints.resize(this->size);
-    this->groundColor = sf::Color::White;
-    this->groundShape.setPrimitiveType(sf::LineStrip);
-    this->groundShape.resize(this->groundPoints.size());
-}
-
+//creates pad(few points at the same height) one within each of 3 areas, stores their position and set position of multiplier
 void Terrain::generateLandingPads()
 {       
     std::random_device rd;
@@ -89,32 +85,35 @@ void Terrain::generateLandingPads()
     }
 }
 
+//init multiplier text 
 void Terrain::initMultiplier()
 {
-    if (!this->font.loadFromFile("C:/Users/krzyw/Source/Repos/PK4/Projekt/LunarLander/Fonts/zector/Zector.ttf"))//filesystem
+    if (!this->font.loadFromFile("C:/Users/krzyw/Source/Repos/PK4/Projekt/LunarLander/Fonts/zector/Zector.ttf"))
     {
     }
-        for (size_t i = 0; i < 3; ++i)
-        {
-            this->multiplier[i].setFont(this->font);
-            this->multiplier[i].setCharacterSize(30);
-            this->multiplier[i].setFillColor(sf::Color::White);
-        }
-        this->multiplier[0].setString("1x");
-        this->multiplier[1].setString("2x");
-        this->multiplier[2].setString("5x");
+    for (size_t i = 0; i < 3; ++i)
+    {
+        this->multiplier[i].setFont(this->font);
+        this->multiplier[i].setCharacterSize(30);
+        this->multiplier[i].setFillColor(sf::Color::White);
+    }
+    this->multiplier[0].setString("1x");
+    this->multiplier[1].setString("2x");
+    this->multiplier[2].setString("5x");
 
 }
 
+//Creates shape of gorund using groundPoints
 void Terrain::initShape()
 {
     for (size_t i = 0; i < this->groundPoints.size(); ++i)
     {
-        this->groundShape[i].position = groundPoints[i];    
+        this->groundShape[i].position = groundPoints[i];
         this->groundShape[i].color = groundColor;
     }
 }
 
+//Displays ground and multiplier texts
 void Terrain::render(sf::RenderTarget* target)
 {
     target->draw(this->groundShape);
@@ -123,7 +122,6 @@ void Terrain::render(sf::RenderTarget* target)
         target->draw(this->multiplier[i]);
     }
 }
-
 
 const std::vector<sf::Vector2f>& Terrain::GetGroundPoints() const
 {
@@ -135,7 +133,7 @@ const sf::VertexArray& Terrain::GetGroundShape() const
     return this->groundShape;
 }
 
-std::vector<std::pair<size_t, size_t>> Terrain::getLandingPads()
+const std::vector<std::pair<size_t, size_t>>& Terrain::getLandingPads() const
 {
     return this->landingPads;
 }
