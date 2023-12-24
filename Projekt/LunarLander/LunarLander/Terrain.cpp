@@ -37,7 +37,7 @@ void Terrain::generatePoints()
         this->groundPoints[i]=point;
     }
     //Eliminating diffrence between 2 points if its too big
-    for (size_t i = 1; i < groundPoints.size() - 1; ++i)
+    /*for (size_t i = 1; i < groundPoints.size() - 1; ++i)
     {
         float diff = (this->groundPoints[i].y - this->groundPoints[i - 1].y);
         if (std::abs(diff) > 450)
@@ -50,7 +50,7 @@ void Terrain::generatePoints()
                 this->groundPoints[i].y -= 450;
             }
         }
-    }
+    }*/
     //smoothing
     for (size_t iteration = 0; iteration < 1; ++iteration)
     {

@@ -164,11 +164,16 @@ void UI::initGameOver()
 	this->message.setFillColor(sf::Color(200, 200, 200, 200));
 	this->message.setString("Enter nickname");
 
+	this->wrongNick.setFont(this->font);
+	this->wrongNick.setCharacterSize(30);
+	this->wrongNick.setPosition(870, 440);
+	this->wrongNick.setFillColor(sf::Color::Red);
+
 	this->sucessfulLandingMessage.setFont(this->font);
 	this->sucessfulLandingMessage.setCharacterSize(50);
 	this->sucessfulLandingMessage.setPosition(730, 180);
 	this->sucessfulLandingMessage.setFillColor(sf::Color(200, 200, 200, 200));
-	this->sucessfulLandingMessage.setString("Sucessfull landing");
+	this->sucessfulLandingMessage.setString("Successful landing");
 
 	this->crashMessage.setFont(this->font);
 	this->crashMessage.setCharacterSize(50);
@@ -188,7 +193,12 @@ void UI::renderGameOver(sf::RenderTarget* target, std::string name, int score)
 	target->draw(this->gameOver);
 	target->draw(this->points);
 	target->draw(this->message);
+	target->draw(this->wrongNick);
+}
 
+void UI::setWrongNick(std::string message)
+{
+	this->wrongNick.setString(message);
 }
 
 

@@ -32,4 +32,3 @@ public:
 	const sf::VertexArray& GetGroundShape() const;
 	const std::vector<std::pair<size_t, size_t>>& getLandingPads() const;
 };
-

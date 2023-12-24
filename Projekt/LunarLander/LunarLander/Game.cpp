@@ -95,7 +95,11 @@ void Game::update()
         {
             if (!lander.landingUpdate(this->terrain.getLandingPads()))
             {
+                this->window->clear();
                 this->UI.crash(this->window);
+                this->UI.render(this->window);
+                this->lander.render(this->window);
+                this->terrain.render(this->window);
                 this->window->display();
                 sf::sleep(sf::Time(sf::seconds(2.0f)));
             }
@@ -220,8 +224,8 @@ void Game::updateEventScore()
             this->window->close();
             break;
         case sf::Event::KeyPressed:
-            if (this->event.key.code == sf::Keyboard::Escape)
-                this->changeGameState(GameState::Menu); 
+            if (this->event.key.code == sf::Keyboard::Escape || this->event.key.code == sf::Keyboard::Enter)
+                this->changeGameState(GameState::Menu);
             break;
         }
     }
@@ -258,6 +262,7 @@ void Game::updateGameOver()
         case sf::Event::KeyPressed:
             if (this->event.key.code == sf::Keyboard::Escape)
             {
+                this->UI.setWrongNick("");
                 this->changeGameState(GameState::Menu);
             }
             else if (this->event.key.code == sf::Keyboard::Enter)
@@ -266,12 +271,13 @@ void Game::updateGameOver()
                 {
                     this->fileManager.writeScore(this->input, this->lander.getPoints());
                     this->input = "";
+                    this->UI.setWrongNick("");
                     this->changeGameState(GameState::Menu);
                 }
                 else
                 {
-                    this->input.clear();
-                    this->input = "";
+                   this->input = "";
+                   this->UI.setWrongNick("Wrong nick");
                 }
             }
             break;

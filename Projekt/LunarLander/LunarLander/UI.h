@@ -24,6 +24,7 @@ private:
 	sf::Text gameOver;
 	sf::Text points;
 	sf::Text message;
+	sf::Text wrongNick;
 
 	sf::Text crashMessage;
 	sf::Text sucessfulLandingMessage;
@@ -49,5 +50,5 @@ public:
 	void renderScores(sf::RenderTarget* target);
 	//Gameover
 	void renderGameOver(sf::RenderTarget* target, std::string name, int score);
+	void setWrongNick(std::string message);
 };
-

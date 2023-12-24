@@ -49,4 +49,3 @@ public:
 	void render();
 	void update();
 };
-

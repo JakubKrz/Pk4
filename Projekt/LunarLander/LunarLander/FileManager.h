@@ -1,9 +1,8 @@
 #pragma once
 #include <filesystem>
-#include <iostream>
 #include <fstream>
 #include <regex>
-#include <algorithm>//napisac w sprawozdaniu ze dolaczylem
+#include <algorithm>
 
 
 namespace fs = std::filesystem;

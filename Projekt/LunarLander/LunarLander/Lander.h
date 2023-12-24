@@ -42,4 +42,3 @@ public:
 	float getMaxFuel() const;
 	int getPoints() const;
 };
-

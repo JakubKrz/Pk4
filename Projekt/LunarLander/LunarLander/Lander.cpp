@@ -2,7 +2,7 @@
 
 #define PI 3.14159
 
-Lander::Lander() : maxFuel(1000.f), fuel(maxFuel), gravity(0.006f), acceleration(0.02f), 
+Lander::Lander() : maxFuel(1000.f), fuel(maxFuel), gravity(0.006f), acceleration(0.02f),//0.02f 
 fuelConsumption(0.5f), points(0), rotationAngle(0), rotationValue(2), speed_x(2.f), speed_y(0.f)
 {
 	this->initSprite();
@@ -12,7 +12,7 @@ fuelConsumption(0.5f), points(0), rotationAngle(0), rotationValue(2), speed_x(2.
 //Load texture, set origin
 void Lander::initSprite()
 {
-	this->LanderTexture.loadFromFile("C:/Users/krzyw/Source/Repos/PK4/Projekt/LunarLander/Textures/test1.png");
+	this->LanderTexture.loadFromFile("C:/Users/krzyw/Source/Repos/PK4/Projekt/LunarLander/Textures/test1.png");// TO DO: change to working directory
 	this->landerSprite.setTexture(this->LanderTexture);
 	this->landerSprite.setOrigin(this->landerSprite.getLocalBounds().width / 2, this->landerSprite.getLocalBounds().height / 2);
 	this->landerSprite.setScale(1.f, 1.f);
@@ -20,12 +20,13 @@ void Lander::initSprite()
 
 //Resets position to starting point
 void Lander::resetPosition(float x, float y)
-{
-	this->speed_x = 2.f;
+{	
+	this->speed_x = 1.1f;
 	this->speed_y = 0.f;
 	this->rotationAngle = 0;
 	this->landerSprite.setPosition(x, y);
 	this->landerSprite.setRotation(this->rotationAngle);
+	
 }
 
 //Resets fuel,points and call resetPosition
@@ -49,7 +50,7 @@ bool Lander::landingUpdate(const std::vector<std::pair<size_t, size_t>>& landing
 	{
 		if (x-width > pad.first && x+width < pad.second)
 		{
-			if (this->speed_x * 14 < 10 && this->speed_y * 14 < 10 && std::abs(this->rotationAngle) < 20)//*14-to match the displayed speed
+			if (this->speed_x * 14 < 10 && this->speed_y * 14 < 10 && std::abs(this->rotationAngle) < 10)//*14-to match the displayed speed
 			{
 				sucesfull = true;
 				landingPadNum = i;
@@ -125,6 +126,8 @@ bool Lander::checkCollision(const std::vector<sf::Vector2f>& groundPoints) const
 
 	sf::FloatRect spriteBounds = this->landerSprite.getGlobalBounds();
 	sf::Vector2f spriteCenter(spriteBounds.left + spriteBounds.width / 2.0f, spriteBounds.top + spriteBounds.height / 2.0f);
+	float xOverlap;
+	float yOverlap;
 
 	for (size_t i = 0; i < groundPoints.size() - 1; ++i)
 	{
@@ -135,7 +138,7 @@ bool Lander::checkCollision(const std::vector<sf::Vector2f>& groundPoints) const
 		sf::Vector2f spriteToLine = spriteCenter - point1;	//vector from sprite to groundpoint1
 
 		float dotProduct = lineDirection.x * spriteToLine.x + lineDirection.y * spriteToLine.y;
-		float lineLengthSquared = lineDirection.x * lineDirection.x + lineDirection.y * lineDirection.y;//linedirection^2 to avoid sqrt
+		float lineLengthSquared = lineDirection.x * lineDirection.x + lineDirection.y * lineDirection.y;//linedirection^2 to avoid square root
 		float t = dotProduct / lineLengthSquared;//the position of the closest point on the line segment relative to point1
 		t = std::max(0.0f, std::min(1.0f, t)); //must be between 0 and 1
 
@@ -143,13 +146,13 @@ bool Lander::checkCollision(const std::vector<sf::Vector2f>& groundPoints) const
 		sf::Vector2f diff = spriteCenter - closestPoint;
 		sf::Vector2f absDiff(std::abs(diff.x), std::abs(diff.y));
 
-		float xOverlap = spriteBounds.width / 2.5f - absDiff.x;//adjustment to 2.5 due to sprite real size
+		xOverlap = spriteBounds.width / 2.f - absDiff.x;
 		if (xOverlap <= 0.0f)
 		{
 			continue;
 		}
 
-		float yOverlap = spriteBounds.height / 2.f - absDiff.y;
+		yOverlap = spriteBounds.height / 2.f - absDiff.y;
 		if (yOverlap <= 0.0f)
 		{
 			continue;
